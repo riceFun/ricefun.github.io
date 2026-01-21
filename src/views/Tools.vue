@@ -71,6 +71,7 @@ const goToTool = (path: string) => {
   min-height: 100vh;
   padding: 100px 2rem 4rem;
   background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
+  background-attachment: fixed;
 }
 
 .tools-container {
