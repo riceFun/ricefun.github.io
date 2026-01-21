@@ -28,6 +28,10 @@ const toggleMobileMenu = () => {
           <span class="link-icon">📄</span>
           <span>简历</span>
         </RouterLink>
+        <RouterLink to="/tools" class="nav-link" @click="isMobileMenuOpen = false">
+          <span class="link-icon">🛠️</span>
+          <span>工具</span>
+        </RouterLink>
         <a href="https://github.com/ricefun" target="_blank" class="nav-link">
           <span class="link-icon">💻</span>
           <span>GitHub</span>
