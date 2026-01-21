@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onUnmounted } from 'vue'
 import ToolNavigation from '@/components/ToolNavigation.vue'
 import QRCode from 'qrcode'
 
@@ -14,6 +14,12 @@ const errorLevel = ref<'L' | 'M' | 'Q' | 'H'>('M')
 // 解码二维码
 const decodeResult = ref('')
 const uploadedImage = ref('')
+
+// 扫一扫相关
+const isScanning = ref(false)
+const videoElement = ref<HTMLVideoElement | null>(null)
+const stream = ref<MediaStream | null>(null)
+const scanInterval = ref<number | null>(null)
 
 const generateQRCode = async () => {
   if (!generateInput.value) {
@@ -106,8 +112,6 @@ const decodeQRCode = async (imageData: string) => {
     // 使用 jsQR 库解码
     const imageDataObj = ctx.getImageData(0, 0, canvas.width, canvas.height)
 
-    // 简单的解码尝试 - 实际项目中应该使用专门的解码库
-    // 这里我们使用一个简化的方法
     const { default: jsQR } = await import('jsqr')
     const code = jsQR(imageDataObj.data, imageDataObj.width, imageDataObj.height)
 
@@ -121,6 +125,92 @@ const decodeQRCode = async (imageData: string) => {
   }
 }
 
+// 开始扫一扫
+const startScan = async () => {
+  try {
+    // 检查是否支持摄像头
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+      alert('您的设备不支持摄像头访问')
+      return
+    }
+
+    // 请求摄像头权限
+    stream.value = await navigator.mediaDevices.getUserMedia({
+      video: {
+        facingMode: 'environment' // 使用后置摄像头
+      }
+    })
+
+    isScanning.value = true
+
+    // 等待 video 元素渲染
+    await new Promise(resolve => setTimeout(resolve, 100))
+
+    if (videoElement.value && stream.value) {
+      videoElement.value.srcObject = stream.value
+      videoElement.value.play()
+
+      // 开始扫描
+      scanQRCode()
+    }
+  } catch (error) {
+    console.error('摄像头启动失败:', error)
+    alert('摄像头启动失败，请确保已授权摄像头权限')
+    stopScan()
+  }
+}
+
+// 扫描二维码
+const scanQRCode = async () => {
+  const { default: jsQR } = await import('jsqr')
+
+  scanInterval.value = window.setInterval(() => {
+    if (!videoElement.value || !isScanning.value) {
+      return
+    }
+
+    const canvas = document.createElement('canvas')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+
+    canvas.width = videoElement.value.videoWidth
+    canvas.height = videoElement.value.videoHeight
+
+    if (canvas.width === 0 || canvas.height === 0) {
+      return
+    }
+
+    ctx.drawImage(videoElement.value, 0, 0, canvas.width, canvas.height)
+    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+
+    const code = jsQR(imageData.data, imageData.width, imageData.height)
+
+    if (code) {
+      decodeResult.value = code.data
+      stopScan()
+    }
+  }, 300) // 每300ms扫描一次
+}
+
+// 停止扫一扫
+const stopScan = () => {
+  isScanning.value = false
+
+  if (scanInterval.value) {
+    clearInterval(scanInterval.value)
+    scanInterval.value = null
+  }
+
+  if (stream.value) {
+    stream.value.getTracks().forEach(track => track.stop())
+    stream.value = null
+  }
+
+  if (videoElement.value) {
+    videoElement.value.srcObject = null
+  }
+}
+
 const clearGenerate = () => {
   generateInput.value = ''
   qrCodeDataUrl.value = ''
@@ -129,7 +219,14 @@ const clearGenerate = () => {
 const clearDecode = () => {
   uploadedImage.value = ''
   decodeResult.value = ''
+  stopScan()
 }
+
+// 组件卸载时清理
+onUnmounted(() => {
+  stopScan()
+})
+
 </script>
 
 <template>
@@ -210,7 +307,40 @@ const clearDecode = () => {
 
       <!-- 解码二维码 -->
       <div v-if="activeTab === 'decode'" class="tab-content">
-        <div class="upload-area">
+        <!-- 扫一扫按钮 (仅移动端显示) -->
+        <div class="scan-button-area mobile-only">
+          <button
+            v-if="!isScanning"
+            class="btn btn-scan"
+            @click="startScan"
+          >
+            <span>📸</span> 扫一扫
+          </button>
+          <button
+            v-else
+            class="btn btn-danger-scan"
+            @click="stopScan"
+          >
+            <span>⏹</span> 停止扫描
+          </button>
+        </div>
+
+        <!-- 扫描预览区域 -->
+        <div v-if="isScanning" class="scan-area">
+          <div class="scan-container">
+            <video
+              ref="videoElement"
+              class="scan-video"
+              autoplay
+              playsinline
+            ></video>
+            <div class="scan-frame"></div>
+            <div class="scan-hint">请将二维码对准扫描框</div>
+          </div>
+        </div>
+
+        <!-- 上传图片区域 -->
+        <div v-if="!isScanning" class="upload-area">
           <label for="qr-upload" class="upload-label">
             <span class="upload-icon">📷</span>
             <span>点击上传二维码图片</span>
@@ -225,7 +355,7 @@ const clearDecode = () => {
           </label>
         </div>
 
-        <div v-if="uploadedImage" class="preview-area">
+        <div v-if="uploadedImage && !isScanning" class="preview-area">
           <h3>上传的图片</h3>
           <img :src="uploadedImage" alt="Uploaded" class="preview-image" />
         </div>
@@ -248,7 +378,7 @@ const clearDecode = () => {
         </div>
 
         <button
-          v-if="uploadedImage || decodeResult"
+          v-if="(uploadedImage || decodeResult) && !isScanning"
           class="btn btn-secondary"
           @click="clearDecode"
           style="margin-top: 1rem"
@@ -524,6 +654,126 @@ const clearDecode = () => {
   margin-bottom: 1rem;
 }
 
+/* 扫一扫相关样式 */
+.scan-button-area {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.btn-scan {
+  background: linear-gradient(135deg, #00d4ff, #00a8cc);
+  color: white;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 212, 255, 0.3);
+}
+
+.btn-scan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 255, 0.4);
+}
+
+.btn-danger-scan {
+  background: linear-gradient(135deg, #ff4757, #ff3838);
+  color: white;
+  padding: 1rem 3rem;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(255, 71, 87, 0.3);
+}
+
+.btn-danger-scan:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(255, 71, 87, 0.4);
+}
+
+.scan-area {
+  margin-bottom: 2rem;
+}
+
+.scan-container {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+  background: #000;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.scan-video {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.scan-frame {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 70%;
+  height: 70%;
+  border: 3px solid #00d4ff;
+  border-radius: 12px;
+  box-shadow: 0 0 0 9999px rgba(0, 0, 0, 0.5);
+  pointer-events: none;
+}
+
+.scan-frame::before,
+.scan-frame::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border: 3px solid #00d4ff;
+}
+
+.scan-frame::before {
+  top: -3px;
+  left: -3px;
+  border-right: none;
+  border-bottom: none;
+}
+
+.scan-frame::after {
+  top: -3px;
+  right: -3px;
+  border-left: none;
+  border-bottom: none;
+}
+
+.scan-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 0.8rem 1.5rem;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
 @media (max-width: 768px) {
   .qrcode-tool {
     padding: 70px 1rem 2rem;
@@ -547,6 +797,10 @@ const clearDecode = () => {
 
   .settings-group {
     grid-template-columns: 1fr;
+  }
+
+  .mobile-only {
+    display: block;
   }
 }
 </style>
