@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
+import ToolNavigation from '@/components/ToolNavigation.vue'
 
 const markdown = ref('# 欢迎使用 Markdown 编辑器\n\n开始编写你的 Markdown 文档...\n\n## 功能特性\n\n- 实时预览\n- 支持标准 Markdown 语法\n- 代码高亮\n\n```javascript\nconst hello = "world";\nconsole.log(hello);\n```\n\n**粗体** 和 *斜体* 文本\n\n> 这是一个引用块\n\n1. 有序列表项 1\n2. 有序列表项 2\n\n- 无序列表项\n- 另一个列表项')
 
@@ -129,11 +130,8 @@ const copyHTML = () => {
 
 <template>
   <div class="markdown-editor">
+    <ToolNavigation title="Markdown 编辑器" />
     <div class="editor-container">
-      <header class="editor-header">
-        <h1 class="editor-title">Markdown 编辑器</h1>
-        <p class="editor-subtitle">实时预览的 Markdown 编辑器</p>
-      </header>
 
       <div class="editor-toolbar">
         <div class="toolbar-left">
@@ -194,9 +192,8 @@ const copyHTML = () => {
 <style scoped>
 .markdown-editor {
   min-height: 100vh;
-  padding: 100px 2rem 2rem;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-  background-attachment: fixed;
+  padding: 80px 2rem 2rem;
+  background: #ffffff;
 }
 
 .editor-container {
@@ -204,27 +201,7 @@ const copyHTML = () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 150px);
-}
-
-.editor-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.editor-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-}
-
-.editor-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-gray);
+  height: calc(100vh - 120px);
 }
 
 .editor-toolbar {
@@ -232,8 +209,8 @@ const copyHTML = () => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 12px 12px 0 0;
   gap: 1rem;
   flex-wrap: wrap;
@@ -248,16 +225,16 @@ const copyHTML = () => {
   width: 100%;
   max-width: 300px;
   padding: 0.6rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  color: var(--text-light);
+  color: #333;
   font-size: 0.95rem;
 }
 
 .file-name-input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #00d4ff;
 }
 
 .toolbar-right {
@@ -271,10 +248,10 @@ const copyHTML = () => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 1rem;
-  background: rgba(0, 212, 255, 0.1);
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  background: #e3f8ff;
+  border: 1px solid #00d4ff;
   border-radius: 6px;
-  color: var(--primary-color);
+  color: #00a8cc;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.85rem;
@@ -282,18 +259,18 @@ const copyHTML = () => {
 }
 
 .toolbar-btn:hover {
-  background: rgba(0, 212, 255, 0.2);
+  background: #d0f2ff;
   transform: translateY(-2px);
 }
 
 .toolbar-btn.danger {
-  background: rgba(244, 67, 54, 0.1);
-  border-color: rgba(244, 67, 54, 0.3);
-  color: var(--danger-color);
+  background: #ffebee;
+  border-color: #f44336;
+  color: #d32f2f;
 }
 
 .toolbar-btn.danger:hover {
-  background: rgba(244, 67, 54, 0.2);
+  background: #ffcdd2;
 }
 
 .editor-main {
@@ -301,29 +278,31 @@ const copyHTML = () => {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 0;
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
+  border-bottom: 1px solid #e0e0e0;
   border-radius: 0 0 12px 12px;
   overflow: hidden;
+  min-height: 0;
 }
 
 .editor-pane,
 .preview-pane {
   display: flex;
   flex-direction: column;
-  background: rgba(0, 0, 0, 0.3);
+  background: #fafafa;
+  min-height: 0;
 }
 
 .editor-pane {
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  border-right: 1px solid #e0e0e0;
 }
 
 .pane-header {
   padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
+  background: #f5f5f5;
+  border-bottom: 1px solid #e0e0e0;
+  color: #333;
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -333,23 +312,24 @@ const copyHTML = () => {
   padding: 1.5rem;
   background: transparent;
   border: none;
-  color: var(--text-light);
+  color: #333;
   font-family: 'Courier New', 'Consolas', monospace;
   font-size: 1rem;
   line-height: 1.6;
   resize: none;
   outline: none;
+  overflow-y: auto;
 }
 
 .editor-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: #999;
 }
 
 .preview-content {
   flex: 1;
   padding: 1.5rem;
   overflow-y: auto;
-  color: var(--text-light);
+  color: #333;
   line-height: 1.6;
 }
 
@@ -357,49 +337,49 @@ const copyHTML = () => {
 .preview-content :deep(h1) {
   font-size: 2rem;
   margin: 1.5rem 0 1rem;
-  color: var(--primary-color);
+  color: #00a8cc;
 }
 
 .preview-content :deep(h2) {
   font-size: 1.5rem;
   margin: 1.2rem 0 0.8rem;
-  color: var(--primary-color);
+  color: #00a8cc;
 }
 
 .preview-content :deep(h3) {
   font-size: 1.2rem;
   margin: 1rem 0 0.6rem;
-  color: var(--primary-color);
+  color: #00a8cc;
 }
 
 .preview-content :deep(code) {
-  background: rgba(0, 212, 255, 0.1);
+  background: #e3f8ff;
   padding: 2px 6px;
   border-radius: 3px;
   font-family: 'Courier New', monospace;
-  color: var(--primary-color);
+  color: #00a8cc;
 }
 
 .preview-content :deep(pre) {
-  background: rgba(0, 0, 0, 0.5);
+  background: #f5f5f5;
   padding: 1rem;
   border-radius: 6px;
   overflow-x: auto;
   margin: 1rem 0;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #e0e0e0;
 }
 
 .preview-content :deep(pre code) {
   background: transparent;
   padding: 0;
-  color: var(--text-light);
+  color: #333;
 }
 
 .preview-content :deep(blockquote) {
-  border-left: 4px solid var(--primary-color);
+  border-left: 4px solid #00d4ff;
   padding-left: 1rem;
   margin: 1rem 0;
-  color: var(--text-gray);
+  color: #666;
 }
 
 .preview-content :deep(ul),
@@ -413,7 +393,7 @@ const copyHTML = () => {
 }
 
 .preview-content :deep(a) {
-  color: var(--primary-color);
+  color: #00a8cc;
   text-decoration: none;
 }
 
@@ -422,22 +402,22 @@ const copyHTML = () => {
 }
 
 .preview-content :deep(strong) {
-  color: var(--accent-color);
+  color: #ff006e;
   font-weight: 600;
 }
 
 .preview-content :deep(em) {
-  color: var(--text-gray);
+  color: #666;
   font-style: italic;
 }
 
 @media (max-width: 1024px) {
   .markdown-editor {
-    padding: 90px 1rem 1rem;
+    padding: 70px 1rem 1rem;
   }
 
   .editor-container {
-    height: calc(100vh - 120px);
+    height: calc(100vh - 100px);
   }
 
   .editor-main {
@@ -447,7 +427,7 @@ const copyHTML = () => {
 
   .editor-pane {
     border-right: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #e0e0e0;
   }
 
   .toolbar-right {

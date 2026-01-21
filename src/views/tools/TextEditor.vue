@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import ToolNavigation from '@/components/ToolNavigation.vue'
 
 const content = ref('')
 const fileName = ref('untitled.txt')
@@ -64,11 +65,8 @@ const copyContent = () => {
 
 <template>
   <div class="text-editor">
+    <ToolNavigation title="文本编辑器" />
     <div class="editor-container">
-      <header class="editor-header">
-        <h1 class="editor-title">文本编辑器</h1>
-        <p class="editor-subtitle">轻量级在线文本编辑器</p>
-      </header>
 
       <div class="editor-toolbar">
         <div class="toolbar-left">
@@ -123,9 +121,8 @@ const copyContent = () => {
 <style scoped>
 .text-editor {
   min-height: 100vh;
-  padding: 100px 2rem 2rem;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-  background-attachment: fixed;
+  padding: 80px 2rem 2rem;
+  background: #ffffff;
 }
 
 .editor-container {
@@ -133,27 +130,7 @@ const copyContent = () => {
   margin: 0 auto;
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 150px);
-}
-
-.editor-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.editor-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-}
-
-.editor-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-gray);
+  height: calc(100vh - 120px);
 }
 
 .editor-toolbar {
@@ -161,8 +138,8 @@ const copyContent = () => {
   justify-content: space-between;
   align-items: center;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 12px 12px 0 0;
   gap: 1rem;
   flex-wrap: wrap;
@@ -177,16 +154,16 @@ const copyContent = () => {
   width: 100%;
   max-width: 300px;
   padding: 0.6rem 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 6px;
-  color: var(--text-light);
+  color: #333;
   font-size: 0.95rem;
 }
 
 .file-name-input:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #00d4ff;
 }
 
 .toolbar-right {
@@ -200,35 +177,35 @@ const copyContent = () => {
   align-items: center;
   gap: 0.5rem;
   padding: 0.6rem 1rem;
-  background: rgba(0, 212, 255, 0.1);
-  border: 1px solid rgba(0, 212, 255, 0.3);
+  background: #e3f8ff;
+  border: 1px solid #00d4ff;
   border-radius: 6px;
-  color: var(--primary-color);
+  color: #00a8cc;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 0.9rem;
 }
 
 .toolbar-btn:hover {
-  background: rgba(0, 212, 255, 0.2);
+  background: #d0f2ff;
   transform: translateY(-2px);
 }
 
 .toolbar-btn.danger {
-  background: rgba(244, 67, 54, 0.1);
-  border-color: rgba(244, 67, 54, 0.3);
-  color: var(--danger-color);
+  background: #ffebee;
+  border-color: #f44336;
+  color: #d32f2f;
 }
 
 .toolbar-btn.danger:hover {
-  background: rgba(244, 67, 54, 0.2);
+  background: #ffcdd2;
 }
 
 .editor-main {
   flex: 1;
-  background: rgba(0, 0, 0, 0.3);
-  border-left: 1px solid rgba(255, 255, 255, 0.1);
-  border-right: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fafafa;
+  border-left: 1px solid #e0e0e0;
+  border-right: 1px solid #e0e0e0;
   overflow: hidden;
 }
 
@@ -238,7 +215,7 @@ const copyContent = () => {
   padding: 1.5rem;
   background: transparent;
   border: none;
-  color: var(--text-light);
+  color: #333;
   font-family: 'Courier New', 'Consolas', monospace;
   font-size: 1rem;
   line-height: 1.6;
@@ -247,20 +224,20 @@ const copyContent = () => {
 }
 
 .editor-textarea::placeholder {
-  color: rgba(255, 255, 255, 0.3);
+  color: #999;
 }
 
 .editor-footer {
   padding: 0.8rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 0 0 12px 12px;
 }
 
 .stats {
   display: flex;
   gap: 2rem;
-  color: var(--text-gray);
+  color: #666;
   font-size: 0.9rem;
 }
 
@@ -271,15 +248,11 @@ const copyContent = () => {
 
 @media (max-width: 768px) {
   .text-editor {
-    padding: 90px 1rem 1rem;
+    padding: 70px 1rem 1rem;
   }
 
   .editor-container {
-    height: calc(100vh - 120px);
-  }
-
-  .editor-title {
-    font-size: 2rem;
+    height: calc(100vh - 100px);
   }
 
   .editor-toolbar {

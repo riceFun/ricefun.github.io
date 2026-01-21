@@ -5,6 +5,7 @@ import Tools from '../views/Tools.vue'
 import Base64Tool from '../views/tools/Base64Tool.vue'
 import TextEditor from '../views/tools/TextEditor.vue'
 import MarkdownEditor from '../views/tools/MarkdownEditor.vue'
+import QRCodeTool from '../views/tools/QRCodeTool.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -38,6 +39,11 @@ const router = createRouter({
       path: '/tools/markdown-editor',
       name: 'markdown-editor',
       component: MarkdownEditor
+    },
+    {
+      path: '/tools/qrcode',
+      name: 'qrcode-tool',
+      component: QRCodeTool
     }
   ]
 })

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
+import ToolNavigation from '@/components/ToolNavigation.vue'
 
 const activeTab = ref<'encode' | 'decode' | 'image-to-base64' | 'base64-to-image'>('encode')
 
@@ -102,11 +103,8 @@ const clearAll = () => {
 
 <template>
   <div class="base64-tool">
+    <ToolNavigation title="Base64 工具" />
     <div class="tool-container">
-      <header class="tool-header">
-        <h1 class="tool-title">Base64 工具</h1>
-        <p class="tool-subtitle">文本和图片的 Base64 编码解码</p>
-      </header>
 
       <!-- Tab 切换 -->
       <div class="tabs">
@@ -262,34 +260,13 @@ const clearAll = () => {
 <style scoped>
 .base64-tool {
   min-height: 100vh;
-  padding: 100px 2rem 4rem;
-  background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
-  background-attachment: fixed;
+  padding: 80px 2rem 4rem;
+  background: #ffffff;
 }
 
 .tool-container {
   max-width: 1000px;
   margin: 0 auto;
-}
-
-.tool-header {
-  text-align: center;
-  margin-bottom: 3rem;
-}
-
-.tool-title {
-  font-size: 2.5rem;
-  font-weight: bold;
-  background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  margin-bottom: 0.5rem;
-}
-
-.tool-subtitle {
-  font-size: 1.1rem;
-  color: var(--text-gray);
 }
 
 .tabs {
@@ -303,29 +280,29 @@ const clearAll = () => {
   flex: 1;
   min-width: 150px;
   padding: 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #f5f5f5;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  color: var(--text-gray);
+  color: #666;
   cursor: pointer;
   transition: all 0.3s ease;
   font-size: 1rem;
 }
 
 .tab:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: var(--primary-color);
+  background: #e8e8e8;
+  border-color: #00d4ff;
 }
 
 .tab.active {
-  background: rgba(0, 212, 255, 0.15);
-  border-color: var(--primary-color);
-  color: var(--primary-color);
+  background: #e3f8ff;
+  border-color: #00d4ff;
+  color: #00a8cc;
 }
 
 .tab-content {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #fafafa;
+  border: 1px solid #e0e0e0;
   border-radius: 12px;
   padding: 2rem;
 }
@@ -336,7 +313,7 @@ const clearAll = () => {
 
 .input-group label {
   display: block;
-  color: var(--text-light);
+  color: #333;
   margin-bottom: 0.5rem;
   font-weight: 600;
 }
@@ -344,10 +321,10 @@ const clearAll = () => {
 .input-group textarea {
   width: 100%;
   padding: 1rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: #ffffff;
+  border: 1px solid #e0e0e0;
   border-radius: 8px;
-  color: var(--text-light);
+  color: #333;
   font-family: 'Courier New', monospace;
   font-size: 0.9rem;
   resize: vertical;
@@ -356,7 +333,7 @@ const clearAll = () => {
 
 .input-group textarea:focus {
   outline: none;
-  border-color: var(--primary-color);
+  border-color: #00d4ff;
 }
 
 .button-group {
@@ -376,7 +353,7 @@ const clearAll = () => {
 }
 
 .btn-primary {
-  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  background: linear-gradient(135deg, #00d4ff, #00a8cc);
   color: white;
 }
 
@@ -386,17 +363,17 @@ const clearAll = () => {
 }
 
 .btn-secondary {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--text-light);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #f5f5f5;
+  color: #666;
+  border: 1px solid #e0e0e0;
 }
 
 .btn-secondary:hover {
-  background: rgba(255, 255, 255, 0.15);
+  background: #e8e8e8;
 }
 
 .btn-success {
-  background: var(--success-color);
+  background: #4caf50;
   color: white;
   width: 100%;
   margin-top: 1rem;
@@ -417,16 +394,16 @@ const clearAll = () => {
   align-items: center;
   justify-content: center;
   padding: 3rem;
-  background: rgba(0, 0, 0, 0.3);
-  border: 2px dashed rgba(0, 212, 255, 0.3);
+  background: #ffffff;
+  border: 2px dashed #00d4ff;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.3s ease;
 }
 
 .upload-label:hover {
-  border-color: var(--primary-color);
-  background: rgba(0, 212, 255, 0.05);
+  border-color: #00a8cc;
+  background: #f0fbff;
 }
 
 .upload-icon {
@@ -435,7 +412,7 @@ const clearAll = () => {
 }
 
 .upload-label span:last-child {
-  color: var(--text-light);
+  color: #333;
   font-size: 1.1rem;
 }
 
@@ -444,7 +421,7 @@ const clearAll = () => {
 }
 
 .preview-area h3 {
-  color: var(--text-light);
+  color: #333;
   margin-bottom: 1rem;
 }
 
@@ -452,16 +429,12 @@ const clearAll = () => {
   max-width: 100%;
   max-height: 400px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid #e0e0e0;
 }
 
 @media (max-width: 768px) {
   .base64-tool {
-    padding: 90px 1rem 2rem;
-  }
-
-  .tool-title {
-    font-size: 2rem;
+    padding: 70px 1rem 2rem;
   }
 
   .tabs {

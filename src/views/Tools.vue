@@ -14,6 +14,13 @@ interface Tool {
 
 const tools = ref<Tool[]>([
   {
+    id: 'qrcode',
+    name: '二维码工具',
+    description: '生成和解码二维码',
+    icon: '📱',
+    path: '/tools/qrcode'
+  },
+  {
     id: 'base64',
     name: 'Base64 工具',
     description: '文本/图片 Base64 编码解码',
