@@ -15,7 +15,7 @@ const toggleMobileMenu = () => {
     <div class="nav-container">
       <div class="logo">
         <RouterLink to="/">
-          <span class="logo-text">&lt;RiceFun /&gt;</span>
+          <span class="logo-text">&lt;Elecard /&gt;</span>
         </RouterLink>
       </div>
 
