@@ -40,11 +40,23 @@ const tools = ref<Tool[]>([
     description: '实时预览的 Markdown 编辑器',
     icon: '📋',
     path: '/tools/markdown-editor'
+  },
+  {
+    id: 'vpn',
+    name: '科学上网',
+    description: '高速稳定的网络加速服务',
+    icon: '🚀',
+    path: 'https://www.tntv2.net/auth/register?code=UWej'
   }
 ])
 
 const goToTool = (path: string) => {
-  router.push(path)
+  // 如果是外部链接,在新标签页打开
+  if (path.startsWith('http://') || path.startsWith('https://')) {
+    window.open(path, '_blank')
+  } else {
+    router.push(path)
+  }
 }
 </script>
 
