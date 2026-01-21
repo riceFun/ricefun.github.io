@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>测试用HTML文件 - 前端开发测试</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+        }
+        
+        :root {
+            --primary-color: #4361ee;
+            --secondary-color: #3f37c9;
+            --accent-color: #4cc9f0;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+            --danger-color: #f44336;
+            --gray-color: #6c757d;
+        }
+        
+        body {
+            background-color: #f5f7fb;
+            color: #333;
+            line-height: 1.6;
+            padding-bottom: 50px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 2rem 0;
+            text-align: center;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        
+        @media (min-width: 992px) {
+            .main-content {
+                grid-template-columns: 2fr 1fr;
+            }
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid #eee;
+            padding-bottom: 0.7rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 i {
+            color: var(--accent-color);
+        }
+        
+        button, .btn {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.7rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+            display: inline-block;
+            text-decoration: none;
+            text-align: center;
+        }
+        
+        button:hover, .btn:hover {
+            background-color: var(--secondary-color);
+        }
+        
+        .btn-success {
+            background-color: var(--success-color);
+        }
+        
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+        
+        .btn-danger {
+            background-color: var(--danger-color);
+        }
+        
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        label {
+            font-weight: 600;
+            color: #555;
+        }
+        
+        input, select, textarea {
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border 0.3s ease;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            border-color: var(--accent-color);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(76, 201, 240, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 700;
+            color: #444;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+            margin: 1rem 0;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .media-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .media-item {
+            flex: 1 1 200px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .media-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        .status-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .badge {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .badge-primary {
+            background-color: #e3f2fd;
+            color: var(--primary-color);
+        }
+        
+        .badge-success {
+            background-color: #e8f5e9;
+            color: var(--success-color);
+        }
+        
+        .badge-warning {
+            background-color: #fff3e0;
+            color: var(--warning-color);
+        }
+        
+        .badge-danger {
+            background-color: #ffebee;
+            color: var(--danger-color);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid #eee;
+            color: var(--gray-color);
+            font-size: 0.9rem;
+        }
+        
+        .interactive-area {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+            text-align: center;
+        }
+        
+        .color-box {
+            width: 100px;
+            height: 100px;
+            margin: 1rem auto;
+            border-radius: 8px;
+            background-color: var(--primary-color);
+            transition: all 0.3s ease;
+        }
+        
+        .controls {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        
+        .controls button {
+            padding: 0.5rem 1rem;
+        }
+        
+        .counter {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin: 1rem 0;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--primary-color);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            z-index: 1000;
+            transform: translateX(150%);
+            transition: transform 0.5s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1><i class="fas fa-file-code"></i> 测试用HTML文件</h1>
+            <p>包含各种HTML元素和组件，用于前端开发和测试</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="main-content">
+            <div class="left-column">
+                <!-- 表单元素部分 -->
+                <section class="card">
+                    <h2><i class="fas fa-edit"></i> 表单元素</h2>
+                    <form id="testForm">
+                        <div class="form-group">
+                            <label for="name">姓名：</label>
+                            <input type="text" id="name" placeholder="请输入您的姓名">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">电子邮件：</label>
+                            <input type="email" id="email" placeholder="example@domain.com">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">密码：</label>
+                            <input type="password" id="password" placeholder="至少8个字符">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="country">国家/地区：</label>
+                            <select id="country">
+                                <option value="">请选择</option>
+                                <option value="cn">中国</option>
+                                <option value="us">美国</option>
+                                <option value="jp">日本</option>
+                                <option value="uk">英国</option>
+                                <option value="de">德国</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>订阅选项：</label>
+                            <div>
+                                <label><input type="checkbox" name="subscription" value="news"> 新闻通讯</label>
+                                <label><input type="checkbox" name="subscription" value="promotions"> 促销信息</label>
+                                <label><input type="checkbox" name="subscription" value="updates"> 产品更新</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>性别：</label>
+                            <div>
+                                <label><input type="radio" name="gender" value="male"> 男性</label>
+                                <label><input type="radio" name="gender" value="female"> 女性</label>
+                                <label><input type="radio" name="gender" value="other"> 其他</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">留言：</label>
+                            <textarea id="message" rows="4" placeholder="请输入您的留言..."></textarea>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="range">满意度：</label>
+                            <input type="range" id="range" min="0" max="10" value="5">
+                            <div>当前值: <span id="rangeValue">5</span>/10</div>
+                        </div>
+                        
+                        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                            <button type="submit" class="btn-success"><i class="fas fa-check"></i> 提交表单</button>
+                            <button type="reset" class="btn-warning"><i class="fas fa-redo"></i> 重置表单</button>
+                        </div>
+                    </form>
+                </section>
+                
+                <!-- 表格部分 -->
+                <section class="card">
+                    <h2><i class="fas fa-table"></i> 数据表格</h2>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>姓名</th>
+                                <th>邮箱</th>
+                                <th>状态</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>001</td>
+                                <td>张三</td>
+                                <td>zhangsan@example.com</td>
+                                <td><span class="badge badge-success">活跃</span></td>
+                                <td><button class="btn" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>002</td>
+                                <td>李四</td>
+                                <td>lisi@example.com</td>
+                                <td><span class="badge badge-warning">待审核</span></td>
+                                <td><button class="btn" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>003</td>
+                                <td>王五</td>
+                                <td>wangwu@example.com</td>
+                                <td><span class="badge badge-danger">停用</span></td>
+                                <td><button class="btn" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;">查看</button></td>
+                            </tr>
+                            <tr>
+                                <td>004</td>
+                                <td>赵六</td>
+                                <td>zhaoliu@example.com</td>
+                                <td><span class="badge badge-success">活跃</span></td>
+                                <td><button class="btn" style="padding: 0.3rem 0.7rem; font-size: 0.9rem;">查看</button></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+                
+                <!-- 媒体元素部分 -->
+                <section class="card">
+                    <h2><i class="fas fa-images"></i> 媒体元素</h2>
+                    <p>下面是响应式图片和占位图示例：</p>
+                    <div class="media-container">
+                        <div class="media-item">
+                            <img src="https://via.placeholder.com/400x300/4361ee/ffffff?text=示例图片1" alt="示例图片1">
+                        </div>
+                        <div class="media-item">
+                            <img src="https://via.placeholder.com/400x300/3f37c9/ffffff?text=示例图片2" alt="示例图片2">
+                        </div>
+                        <div class="media-item">
+                            <img src="https://via.placeholder.com/400x300/4cc9f0/333333?text=示例图片3" alt="示例图片3">
+                        </div>
+                    </div>
+                    <div style="margin-top: 1.5rem;">
+                        <h3>视频示例</h3>
+                        <div style="position: relative; padding-bottom: 56.25%; height: 0; margin-top: 1rem; border-radius: 8px; overflow: hidden;">
+                            <iframe style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            
+            <div class="right-column">
+                <!-- 交互区域 -->
+                <section class="card">
+                    <h2><i class="fas fa-mouse-pointer"></i> 交互演示</h2>
+                    <div class="interactive-area">
+                        <h3>颜色变换器</h3>
+                        <div class="color-box" id="colorBox"></div>
+                        <div class="controls">
+                            <button onclick="changeColor('#4361ee')">蓝色</button>
+                            <button onclick="changeColor('#4caf50')" class="btn-success">绿色</button>
+                            <button onclick="changeColor('#ff9800')" class="btn-warning">橙色</button>
+                            <button onclick="changeColor('#f44336')" class="btn-danger">红色</button>
+                            <button onclick="changeColor('#9c27b0')" style="background-color: #9c27b0;">紫色</button>
+                        </div>
+                        
+                        <h3 style="margin-top: 2rem;">点击计数器</h3>
+                        <div class="counter" id="counter">0</div>
+                        <button onclick="incrementCounter()"><i class="fas fa-plus"></i> 增加计数</button>
+                        <button onclick="resetCounter()" class="btn-warning"><i class="fas fa-redo"></i> 重置</button>
+                        
+                        <h3 style="margin-top: 2rem;">显示/隐藏内容</h3>
+                        <button onclick="toggleContent()" id="toggleBtn">隐藏内容</button>
+                        <div id="toggleContent" style="margin-top: 1rem; padding: 1rem; background-color: #f0f8ff; border-radius: 8px;">
+                            <p>这是一个可以显示/隐藏的内容区域。点击上面的按钮可以切换此内容的显示状态。</p>
+                            <p>这个功能常用于折叠面板、手风琴菜单等UI组件。</p>
+                        </div>
+                    </div>
+                </section>
+                
+                <!-- 列表部分 -->
+                <section class="card">
+                    <h2><i class="fas fa-list"></i> 列表示例</h2>
+                    <h3>无序列表</h3>
+                    <ul>
+                        <li>HTML5 语义化标签</li>
+                        <li>CSS3 弹性布局和网格布局</li>
+                        <li>JavaScript ES6+ 新特性</li>
+                        <li>响应式网页设计原则</li>
+                        <li>前端框架 (React, Vue, Angular)</li>
+                    </ul>
+                    
+                    <h3>有序列表</h3>
+                    <ol>
+                        <li>项目需求分析</li>
+                        <li>UI/UX 设计</li>
+                        <li>前端开发</li>
+                        <li>后端开发</li>
+                        <li>测试与部署</li>
+                    </ol>
+                    
+                    <h3>状态标签</h3>
+                    <div class="status-badges">
+                        <span class="badge badge-primary">主要</span>
+                        <span class="badge badge-success">成功</span>
+                        <span class="badge badge-warning">警告</span>
+                        <span class="badge badge-danger">危险</span>
+                        <span class="badge badge-primary">信息</span>
+                        <span class="badge badge-success">完成</span>
+                    </div>
+                </section>
+                
+                <!-- 文本内容 -->
+                <section class="card">
+                    <h2><i class="fas fa-text-height"></i> 文本样式示例</h2>
+                    <h1>标题1 (h1)</h1>
+                    <h2>标题2 (h2)</h2>
+                    <h3>标题3 (h3)</h3>
+                    <h4>标题4 (h4)</h4>
+                    <h5>标题5 (h5)</h5>
+                    <h6>标题6 (h6)</h6>
+                    
+                    <p>这是一个段落，包含<b>粗体文本</b>、<i>斜体文本</i>、<u>下划线文本</u>和<span style="color: var(--primary-color);">彩色文本</span>。</p>
+                    
+                    <p>这是另一个段落，包含<code>代码片段</code>、<mark>高亮文本</mark>和<a href="#">超链接示例</a>。</p>
+                    
+                    <blockquote style="border-left: 4px solid var(--accent-color); padding-left: 1rem; margin: 1.5rem 0; font-style: italic; color: #555;">
+                        这是一个引用块示例。通常用于引用他人的话语或重要的文本内容。
+                    </blockquote>
+                </section>
+            </div>
+        </div>
+    </div>
+    
+    <footer class="container">
+        <p>测试用HTML文件 &copy; 2026 - 包含各种HTML元素用于前端开发和测试</p>
+        <p style="margin-top: 0.5rem; font-size: 0.8rem;">此文件包含：表单、表格、列表、媒体、交互组件和文本样式示例</p>
+    </footer>
+    
+    <!-- 通知区域 -->
+    <div class="notification" id="notification">
+        <i class="fas fa-check-circle" style="color: var(--success-color); font-size: 1.2rem;"></i>
+        <div>
+            <strong>操作成功！</strong>
+            <div id="notificationText">这是一个通知示例</div>
+        </div>
+    </div>
+    
+    <script>
+        // 交互功能脚本
+        let count = 0;
+        let isContentVisible = true;
+        
+        // 范围滑块事件
+        const rangeSlider = document.getElementById('range');
+        const rangeValue = document.getElementById('rangeValue');
+        
+        rangeSlider.addEventListener('input', function() {
+            rangeValue.textContent = this.value;
+        });
+        
+        // 表单提交事件
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            showNotification('表单已提交！');
+        });
+        
+        // 表单重置事件
+        document.getElementById('testForm').addEventListener('reset', function() {
+            showNotification('表单已重置！');
+        });
+        
+        // 改变颜色函数
+        function changeColor(color) {
+            const colorBox = document.getElementById('colorBox');
+            colorBox.style.backgroundColor = color;
+            showNotification(`颜色已更改为: ${color}`);
+        }
+        
+        // 增加计数器
+        function incrementCounter() {
+            count++;
+            document.getElementById('counter').textContent = count;
+        }
+        
+        // 重置计数器
+        function resetCounter() {
+            count = 0;
+            document.getElementById('counter').textContent = count;
+            showNotification('计数器已重置');
+        }
+        
+        // 切换内容显示/隐藏
+        function toggleContent() {
+            const content = document.getElementById('toggleContent');
+            const button = document.getElementById('toggleBtn');
+            
+            if (isContentVisible) {
+                content.classList.add('hidden');
+                button.textContent = '显示内容';
+                button.classList.remove('btn-warning');
+                button.classList.add('btn-success');
+            } else {
+                content.classList.remove('hidden');
+                button.textContent = '隐藏内容';
+                button.classList.remove('btn-success');
+                button.classList.add('btn-warning');
+            }
+            
+            isContentVisible = !isContentVisible;
+        }
+        
+        // 显示通知
+        function showNotification(text) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = text;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+        
+        // 表格行点击事件
+        document.querySelectorAll('table tbody tr').forEach(row => {
+            row.addEventListener('click', function() {
+                const name = this.cells[1].textContent;
+                showNotification(`已选择: ${name}`);
+            });
+        });
+        
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            showNotification('测试页面加载完成！');
+        });
+    </script>
+</body>
+</html>
